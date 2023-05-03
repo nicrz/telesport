@@ -9,3 +9,10 @@ example of participation:
     athleteCount: 372
 }
 */
+export class Participation {
+    public id!: number;
+    public year!: number;
+    public city!: string;
+    public medalsCount!: number;
+    public athleteCount!: number;
+  }
