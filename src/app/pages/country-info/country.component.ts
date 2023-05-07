@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
   styleUrls: ['./country.component.scss'],
 })
-
-//Duplication for now
 
 export class CountryComponent implements OnInit {
 
@@ -18,50 +17,56 @@ export class CountryComponent implements OnInit {
   public chartData : number[] = [];
   public chartDatalabels : any[] = [];
   public nbJo : number;
-  public nbCountries : number;
   public medails : number;
+  public nbAthletes : number;
+  public countryName : string;
+  public idParameter: number;
 
-
-  constructor(private olympicService: OlympicService) {
+  constructor(private olympicService: OlympicService, private route: ActivatedRoute) {
     this.chartDatalabels = [];
     this.chartData = [];
     this.nbJo = 0;
-    this.nbCountries = 0;
     this.medails = 0;
+    this.nbAthletes = 0;
+    this.countryName = '';
+    this.idParameter = 0;
 
   }
   
   ngOnInit(){
+    
+      this.route.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
+      if (!isNaN(id)) {
+        this.idParameter = id;
+      }
+    }); 
 
-    this.olympicService.loadInitialData().subscribe({
+    this.olympicService.loadDataByCountryId(this.idParameter).subscribe({
       next: (
         value => {
-          this.nbCountries = value.length;
-          this.nbJo = value[0].participations.length;
-          value.forEach((element: any) => {
-            this.chartDatalabels.push(element.country)
-            this.medails = 0;
-            if (element.participations){
-              element.participations.forEach((participation: any) => {
-                this.medails += participation.medalsCount;
-              })
-            }
-            this.chartData.push(this.medails)
+          this.nbJo = value.participations.length;
+          this.countryName = value.country;
+          value.participations.forEach((participation: any) => {
+            this.chartDatalabels.push(participation.year)
+            this.medails += participation.medalsCount;
+            this.nbAthletes += participation.athleteCount;
+            this.chartData.push(participation.medalsCount)
           })
-  
+
           this.ctx = document.getElementById('myChart');
           this.config = {
-            type : 'pie',
+            type : 'line',
             options : {
             },
             data : {
               labels : this.chartDatalabels,
               datasets : [{ 
-                label: 'Nombre de médailles',
+                label: 'Année',
                 data: this.chartData,
-                borderWidth: 1,
-                borderColor: 'grey',
-                backgroundColor: ['#793D52', '#89A1DB', '#9780A1', '#BFE0F1', '#B8CBE7', '#956065']
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
             }],
             }
           }
