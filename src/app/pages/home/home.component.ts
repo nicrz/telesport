@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,14 +15,16 @@ export class HomeComponent implements OnInit {
   public config : any;
   public chartData : number[] = [];
   public chartDatalabels : any[] = [];
+  public chartCountryIds : number[] = [];
   public nbJo : number;
   public nbCountries : number;
   public medails : number;
 
 
-  constructor(private olympicService: OlympicService) {
+  constructor(private olympicService: OlympicService, private router: Router) {
     this.chartDatalabels = [];
     this.chartData = [];
+    this.chartCountryIds = [];
     this.nbJo = 0;
     this.nbCountries = 0;
     this.medails = 0;
@@ -37,6 +40,7 @@ export class HomeComponent implements OnInit {
           this.nbJo = value[0].participations.length;
           value.forEach((element: any) => {
             this.chartDatalabels.push(element.country)
+            this.chartCountryIds.push(element.id)
             this.medails = 0;
             if (element.participations){
               element.participations.forEach((participation: any) => {
@@ -50,6 +54,7 @@ export class HomeComponent implements OnInit {
           this.config = {
             type : 'pie',
             options : {
+              onClick: this.chartClickEvent.bind(this)
             },
             data : {
               labels : this.chartDatalabels,
@@ -66,6 +71,14 @@ export class HomeComponent implements OnInit {
         }
       )
     })
+  }
+
+  chartClickEvent(event: MouseEvent, chartElements: any[]) {
+    if (chartElements.length > 0) {
+      const countryId = this.chartCountryIds[chartElements[0].index];
+      console.log('Country id:', countryId); 
+      this.router.navigate(['/country', countryId]);
+    }
   }
   
 }
