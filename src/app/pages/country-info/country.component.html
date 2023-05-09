@@ -1,17 +1,29 @@
-<h1>{{ countryName }}</h1>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet">
+<div class="container">
+    <h1>{{ countryName }}</h1>
+  
+    <div class="row d-flex">
+      <div class="col" style="margin-right:2rem;">
+        <h3>Number of entries</h3><p><strong>{{ nbJo }}</strong></p>
+      </div>
+      <div class="col" style="margin-left:2rem; margin-right: 2rem;">
+        <h3>Total number medals</h3><p><strong>{{ medails }}</strong></p>
+      </div>
+      <div class="col" style="margin-left:2rem;">
+        <h3>Total number of athletes</h3><p><strong>{{ nbAthletes }}</strong></p>
+      </div>
+    </div>
+    </div>
+    <br />
+  
+    <div class="row d-flex">
+        <div class="col-md-8 chart-column">
+          <canvas id="myChart"></canvas>
+        </div>
+    </div>
 
-<div style="align-content: center;">
-    <h3>Number of entries : <strong>{{ nbJo }}</strong></h3>
-</div>
+    <button class="button" (click)="goHome()">
+        <i class="bi bi-arrow-left"></i> Retour à l'accueil
+      </button>
 
-<div style="align-content: center;">
-    <h3>Total number medals : <strong>{{ medails }}</strong></h3>
-</div>
-
-<div style="align-content: center;">
-    <h3>Total number of athletes : <strong>{{ nbAthletes }}</strong></h3>
-</div>
-
-<div style="position:absolute;"> 
-    <canvas id = "myChart"></canvas>
-</div>
+  

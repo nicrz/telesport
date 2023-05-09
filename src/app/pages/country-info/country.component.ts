@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-country',
@@ -22,7 +22,7 @@ export class CountryComponent implements OnInit {
   public countryName : string;
   public idParameter: number;
 
-  constructor(private olympicService: OlympicService, private route: ActivatedRoute) {
+  constructor(private olympicService: OlympicService, private route: ActivatedRoute, private router: Router) {
     this.chartDatalabels = [];
     this.chartData = [];
     this.nbJo = 0;
@@ -74,6 +74,11 @@ export class CountryComponent implements OnInit {
         }
       )
     })
+    
+  }
+
+  goHome() {
+    this.router.navigate(['/']);
   }
   
 }
