@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
 import { Router } from '@angular/router';
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   public nbJo : number;
   public nbCountries : number;
   public medails : number;
+  private subscription: Subscription;
 
 
   constructor(private olympicService: OlympicService, private router: Router) {
@@ -28,12 +29,13 @@ export class HomeComponent implements OnInit {
     this.nbJo = 0;
     this.nbCountries = 0;
     this.medails = 0;
+    this.subscription = new Subscription();
 
   }
   
   ngOnInit(){
 
-    this.olympicService.loadInitialData().subscribe({
+    this.subscription =  this.olympicService.loadInitialData().subscribe({
       next: (
         value => {
           this.nbCountries = value.length;
@@ -79,6 +81,10 @@ export class HomeComponent implements OnInit {
       console.log('Country id:', countryId); 
       this.router.navigate(['/country', countryId]);
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   
 }

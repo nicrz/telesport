@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class CountryComponent implements OnInit {
   public nbAthletes : number;
   public countryName : string;
   public idParameter: number;
+  private subscription: Subscription;
 
   constructor(private olympicService: OlympicService, private route: ActivatedRoute, private router: Router) {
     this.chartDatalabels = [];
@@ -30,6 +31,7 @@ export class CountryComponent implements OnInit {
     this.nbAthletes = 0;
     this.countryName = '';
     this.idParameter = 0;
+    this.subscription = new Subscription();
 
   }
   
@@ -42,7 +44,7 @@ export class CountryComponent implements OnInit {
       }
     }); 
 
-    this.olympicService.loadDataByCountryId(this.idParameter).subscribe({
+    this.subscription = this.olympicService.loadDataByCountryId(this.idParameter).subscribe({
       next: (
         value => {
           this.nbJo = value.participations.length;
@@ -79,6 +81,10 @@ export class CountryComponent implements OnInit {
 
   goHome() {
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   
 }
