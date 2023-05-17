@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -37,6 +37,16 @@ export class OlympicService {
         return caught;
       })
     );
+  }
+
+  async countryExists(id: number): Promise<boolean> {
+    try {
+      const data = await firstValueFrom(this.loadDataByCountryId(id)); // Récupère les données correspondant à l'ID
+      return !!data; // Retourne true si les données existent, false sinon
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   }
 
   getOlympics() {

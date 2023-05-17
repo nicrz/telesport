@@ -4,6 +4,14 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
 import { ActivatedRoute, Router } from '@angular/router';
 
+interface Participation {
+  id: number;
+  year: number;
+  city: string;
+  medalsCount: number;
+  athleteCount: number;
+}
+
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
@@ -15,7 +23,7 @@ export class CountryComponent implements OnInit {
   public ctx : any;
   public config : any;
   public chartData : number[] = [];
-  public chartDatalabels : any[] = [];
+  public chartDatalabels : number[] = [];
   public nbJo : number;
   public medails : number;
   public nbAthletes : number;
@@ -36,20 +44,24 @@ export class CountryComponent implements OnInit {
   }
   
   ngOnInit(){
-    
-      this.route.paramMap.subscribe(params => {
-      const id = Number(params.get('id'));
-      if (!isNaN(id)) {
-        this.idParameter = id;
-      }
-    }); 
 
+
+    // Souscription à paramMap qui renvoie un observable contenant tous les paramètres de notre route puis transforme
+    // le paramètre id en nombre
+    this.route.paramMap.subscribe(params => {
+    const id = Number(params.get('id'));
+    if (!isNaN(id)) {
+      this.idParameter = id;
+    }
+  }); 
+
+  // Souscription à loadDataByCountryId qui renvoie un Observable contenant les infos d'un pays par rapport à son ID
     this.subscription = this.olympicService.loadDataByCountryId(this.idParameter).subscribe({
       next: (
         value => {
           this.nbJo = value.participations.length;
           this.countryName = value.country;
-          value.participations.forEach((participation: any) => {
+          value.participations.forEach((participation: Participation) => {
             this.chartDatalabels.push(participation.year)
             this.medails += participation.medalsCount;
             this.nbAthletes += participation.athleteCount;
