@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
 
   }
   
-  ngOnInit(){
+  ngOnInit(): void{
 
     // Souscription à loadInitialData qui renvoie un Observable contenant les données du JSON olympic.json
     this.subscription =  this.olympicService.loadInitialData().subscribe({
@@ -109,17 +109,16 @@ export class HomeComponent implements OnInit {
 
   // Méthode appelée lorsqu'un clic est effectué sur le diagramme, prend en paramètre l'événement de clic et un tableau-
   // -chartElements qui représente les différentes tranches du diagramme
-  chartClickEvent(event: MouseEvent, chartElements: ChartElement[]) {
+  chartClickEvent(event: MouseEvent, chartElements: ChartElement[]): void {
     if (chartElements.length > 0) {
       // Récupère l'ID du pays en fonction de l'index du tableau qui a été cliqué (ex : l'index 4 représentera le pays d'ID 5)
       const countryId = this.chartCountryIds[chartElements[0].index];
-      console.log(chartElements);
       this.router.navigate(['/country', countryId]);
     }
   }
 
   // Met fin à notre souscription
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
   

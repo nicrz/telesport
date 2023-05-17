@@ -43,7 +43,7 @@ export class CountryComponent implements OnInit {
 
   }
   
-  ngOnInit(){
+  ngOnInit(): void{
 
 
     // Souscription à paramMap qui renvoie un observable contenant tous les paramètres de notre route puis transforme
@@ -91,11 +91,11 @@ export class CountryComponent implements OnInit {
     
   }
 
-  goHome() {
+  goHome(): void {
     this.router.navigate(['/']);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
   
