@@ -3,6 +3,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart } from 'chart.js';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PageTitleComponent } from './../page-title/page-title.component';
 
 interface Participation {
   id: number;
