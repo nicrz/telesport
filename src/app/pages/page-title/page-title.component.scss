@@ -1,0 +1,19 @@
+  .page-title {
+    background-color: #04838F;
+    color: white; 
+    font-size: 36px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-family: 'Nunito', sans-serif;
+    justify-content: center;
+    display:flex;
+    border-radius: 10px;
+  }
+
+    /* Media query pour écrans d'ordinateurs */
+    @media (min-width: 768px) {
+        .page-title {
+        margin-left: 10rem;
+        margin-right: 10rem;
+        }
+    }
