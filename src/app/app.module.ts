@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CountryComponent } from './pages/country-info/country.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { Chart } from 'chart.js';
 import { registerables } from 'chart.js';
@@ -12,10 +13,9 @@ Chart.register(...registerables);
 
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent, PageTitleComponent],
+  declarations: [AppComponent, HomeComponent, CountryComponent, NotFoundComponent, PageTitleComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}
