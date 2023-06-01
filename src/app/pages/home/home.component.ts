@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart, ChartConfiguration, ChartEvent } from 'chart.js';
@@ -21,7 +21,7 @@ interface Country {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy  {
   public ctx: CanvasRenderingContext2D | null;
   public config: ChartConfiguration<'pie'>;
   public chartData: number[] = [];
@@ -109,6 +109,7 @@ export class HomeComponent implements OnInit {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+      console.log('destroy appel')
     }
   }
 }

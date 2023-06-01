@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Chart, ChartConfiguration, ChartOptions } from 'chart.js';
@@ -11,7 +11,7 @@ import { Participation } from 'src/app/core/models/Participation';
   templateUrl: './country.component.html',
   styleUrls: ['./country.component.scss'],
 })
-export class CountryComponent implements OnInit {
+export class CountryComponent implements OnInit, OnDestroy {
 
   public ctx: CanvasRenderingContext2D | null;
   public config: ChartConfiguration<'line'>;
