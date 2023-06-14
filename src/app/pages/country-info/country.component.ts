@@ -12,7 +12,6 @@ import { Participation } from 'src/app/core/models/Participation';
   styleUrls: ['./country.component.scss'],
 })
 export class CountryComponent implements OnInit, OnDestroy {
-
   public ctx: CanvasRenderingContext2D | null;
   public config: ChartConfiguration<'line'>;
   public chartData: number[] = [];
@@ -67,19 +66,21 @@ export class CountryComponent implements OnInit, OnDestroy {
       .loadDataByCountryId(this.idParameter)
       .subscribe({
         next: (value) => {
-          this.nbJo = value.participations.length;
-          this.countryName = value.country;
-          value.participations.forEach((participation: Participation) => {
-            this.chartDatalabels.push(participation.year);
-            this.medails += participation.medalsCount;
-            this.nbAthletes += participation.athleteCount;
-            this.chartData.push(participation.medalsCount);
-          });
+          if (value) {
+            this.nbJo = value.participations.length;
+            this.countryName = value.country;
+            value.participations.forEach((participation: Participation) => {
+              this.chartDatalabels.push(participation.year);
+              this.medails += participation.medalsCount;
+              this.nbAthletes += participation.athleteCount;
+              this.chartData.push(participation.medalsCount);
+            });
 
-          const canvas = document.getElementById('myChart') as HTMLCanvasElement;
-          this.ctx = canvas.getContext('2d');
-          if (this.ctx) {
-            const myChart = new Chart(this.ctx, this.config);
+            const canvas = document.getElementById('myChart') as HTMLCanvasElement;
+            this.ctx = canvas.getContext('2d');
+            if (this.ctx) {
+              const myChart = new Chart(this.ctx, this.config);
+            }
           }
         },
       });
